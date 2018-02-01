@@ -27,6 +27,8 @@ public:
     void setClientModel(ClientModel *clientModel);
     void setWalletModel(WalletModel *walletModel);
     void showOutOfSyncWarning(bool fShow);
+    void updateWatchOnlyLabels(bool showWatchOnly);
+    void updateAdvancedPSUI(bool fShowAdvancedPSUI);
 
 public slots:
     void setBalance(qint64 balance, qint64 unconfirmedBalance, qint64 immatureBalance);
@@ -49,6 +51,7 @@ private slots:
     void updateDisplayUnit();
     void handleTransactionClicked(const QModelIndex &index);
     void updateAlerts(const QString &warnings);
+
 };
 
 #endif // OVERVIEWPAGE_H

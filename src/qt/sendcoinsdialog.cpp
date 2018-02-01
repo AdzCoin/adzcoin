@@ -32,7 +32,7 @@ SendCoinsDialog::SendCoinsDialog(QWidget *parent) :
 #endif
 #if QT_VERSION >= 0x040700
     /* Do not move this to the XML file, Qt before 4.7 will choke on it */
-    ui->lineEditCoinControlChange->setPlaceholderText(tr("Enter a AdzCoin address (e.g. H7QEPyCg1Yv3UZUALDha9bNYXuYbfMe9Lp)"));
+    ui->lineEditCoinControlChange->setPlaceholderText(tr("Enter a AdzCoin address and updated (e.g. H7QEPyCg1Yv3UZUALDha9bNYXuYbfMe9Lp)"));
 #endif
 
     addEntry();
@@ -68,11 +68,12 @@ SendCoinsDialog::SendCoinsDialog(QWidget *parent) :
     ui->labelCoinControlFee->addAction(clipboardFeeAction);
     ui->labelCoinControlAfterFee->addAction(clipboardAfterFeeAction);
     ui->labelCoinControlBytes->addAction(clipboardBytesAction);
-    ui->labelCoinControlPriority->addAction(clipboardPriorityAction);
+    //ui->labelCoinControlPriority->addAction(clipboardPriorityAction);
     ui->labelCoinControlLowOutput->addAction(clipboardLowOutputAction);
     ui->labelCoinControlChange->addAction(clipboardChangeAction);
 
     fNewRecipientAllowed = true;
+    minimizeFeeSection(true);
 }
 
 void SendCoinsDialog::setModel(WalletModel *model)
@@ -203,7 +204,7 @@ void SendCoinsDialog::on_sendButton_clicked()
         break;
     case WalletModel::TransactionCreationFailed:
         QMessageBox::warning(this, tr("Send Coins"),
-            tr("Error: Transaction creation failed!"),
+            tr("Error: Transaction creation failed!asdfsdfasdf"),
             QMessageBox::Ok, QMessageBox::Ok);
         break;
     case WalletModel::TransactionCommitFailed:
@@ -417,7 +418,7 @@ void SendCoinsDialog::coinControlClipboardBytes()
 // Coin Control: copy label "Priority" to clipboard
 void SendCoinsDialog::coinControlClipboardPriority()
 {
-    GUIUtil::setClipboard(ui->labelCoinControlPriority->text());
+    //GUIUtil::setClipboard(ui->labelCoinControlPriority->text());
 }
 
 // Coin Control: copy label "Low output" to clipboard
@@ -536,3 +537,27 @@ void SendCoinsDialog::coinControlUpdateLabels()
     }
 }
 
+void SendCoinsDialog::minimizeFeeSection(bool fMinimize)
+{
+    ui->labelFeeMinimized->setVisible(fMinimize);
+    ui->buttonChooseFee  ->setVisible(fMinimize);
+    ui->buttonMinimizeFee->setVisible(!fMinimize);
+    ui->frameFeeSelection->setVisible(!fMinimize);
+    ui->horizontalLayoutSmartFee->setContentsMargins(0, (fMinimize ? 0 : 6), 0, 0);
+    //fFeeMinimized = fMinimize;
+}
+
+void SendCoinsDialog::on_buttonChooseFee_clicked()
+{
+    minimizeFeeSection(false);
+}
+
+void SendCoinsDialog::on_buttonMinimizeFee_clicked()
+{
+    updateFeeMinimizedLabel();
+    minimizeFeeSection(true);
+}
+
+void SendCoinsDialog::updateFeeMinimizedLabel()
+{
+}
