@@ -68,6 +68,8 @@ BitcoinGUI::BitcoinGUI(QWidget *parent) :
     rpcConsole(0),
     prevBlocks(0)
 {
+    this->setStyleSheet(GUIUtil::loadStyleSheet());
+
     restoreWindowGeometry();
     setWindowTitle(tr("AdzCoin") + " - " + tr("Wallet"));
 #ifndef Q_OS_MAC

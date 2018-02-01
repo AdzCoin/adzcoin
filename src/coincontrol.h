@@ -25,8 +25,9 @@ public:
     
     bool IsSelected(const uint256& hash, unsigned int n) const
     {
-        COutPoint outpt(hash, n);
-        return (setSelected.count(outpt) > 0);
+        //COutPoint outpt(hash, n);
+        //return (setSelected.count(outpt) > 0);
+        return false;
     }
     
     void Select(COutPoint& output)
@@ -46,7 +47,7 @@ public:
 
     void ListSelected(std::vector<COutPoint>& vOutpoints)
     {
-        vOutpoints.assign(setSelected.begin(), setSelected.end());
+        //vOutpoints.assign(setSelected.begin(), setSelected.end());
     }
         
 private:

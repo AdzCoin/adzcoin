@@ -113,8 +113,12 @@ OverviewPage::OverviewPage(QWidget *parent) :
     connect(ui->listTransactions, SIGNAL(clicked(QModelIndex)), this, SLOT(handleTransactionClicked(QModelIndex)));
 
     // init "out of sync" warning labels
-    ui->labelWalletStatus->setText("(" + tr("out of sync") + ")");
-    ui->labelTransactionsStatus->setText("(" + tr("out of sync") + ")");
+    ui->labelWalletStatus->setText("(" + tr("out of syncasdfasdf") + ")");
+    ui->labelTransactionsStatus->setText("(" + tr("out of syncadsfadsf") + ")");
+    //added
+    bool showWatchOnly = false;
+    updateWatchOnlyLabels(showWatchOnly);
+    updateAdvancedPSUI(false);
 
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
@@ -210,4 +214,48 @@ void OverviewPage::showOutOfSyncWarning(bool fShow)
 {
     ui->labelWalletStatus->setVisible(fShow);
     ui->labelTransactionsStatus->setVisible(fShow);
+}
+
+
+//added
+
+void OverviewPage::updateWatchOnlyLabels(bool showWatchOnly)
+{
+    ui->labelSpendable->setVisible(showWatchOnly);      // show spendable label (only when watch-only is active)
+    ui->labelWatchonly->setVisible(showWatchOnly);      // show watch-only label
+    ui->lineWatchBalance->setVisible(showWatchOnly);    // show watch-only balance separator line
+    ui->labelWatchAvailable->setVisible(showWatchOnly); // show watch-only available balance
+    ui->labelWatchPending->setVisible(showWatchOnly);   // show watch-only pending balance
+    ui->labelWatchTotal->setVisible(showWatchOnly);     // show watch-only total balance
+
+    if (!showWatchOnly){
+        ui->labelWatchImmature->hide();
+    }
+    else{
+        ui->labelBalance->setIndent(20);
+        ui->labelUnconfirmed->setIndent(20);
+        ui->labelImmature->setIndent(20);
+        ui->labelTotal->setIndent(20);
+    }
+
+    ui->labelPrivateSendEnabled->setText("Enabled");
+    ui->togglePrivateSend->setText(tr("Start Mixing"));
+}
+
+void OverviewPage::updateAdvancedPSUI(bool fShowAdvancedPSUI) {
+   // this->fShowAdvancedPSUI = fShowAdvancedPSUI;
+    //int nNumItems = (fLiteMode || !fShowAdvancedPSUI) ? NUM_ITEMS : NUM_ITEMS_ADV;
+    //SetupTransactionList(nNumItems);
+
+    //if (fLiteMode) return;
+
+    ui->framePrivateSend->setVisible(true);
+    ui->labelCompletitionText->setVisible(fShowAdvancedPSUI);
+    ui->privateSendProgress->setVisible(fShowAdvancedPSUI);
+    ui->labelSubmittedDenomText->setVisible(fShowAdvancedPSUI);
+    ui->labelSubmittedDenom->setVisible(fShowAdvancedPSUI);
+    ui->privateSendAuto->setVisible(fShowAdvancedPSUI);
+    ui->privateSendReset->setVisible(fShowAdvancedPSUI);
+    ui->privateSendInfo->setVisible(true);
+    ui->labelPrivateSendLastMessage->setVisible(fShowAdvancedPSUI);
 }
